@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Interval } from "./forecast.interfaces";
+import { Interval, ScenarioLine } from "./forecast.interfaces";
+import { useCurrentStateContext } from "../currentState/CurrentStateContext";
+import { BaseMetric } from "../../main.interfaces";
 interface IForecastContext {
   interval: Interval;
   setInterval: (newInterval: Interval) => void;
   dates: string[] | null;
-  lines: number[][] | null;
+  scenarioLines: ScenarioLine[];
 }
 
 const ForecastContext = React.createContext<IForecastContext | undefined>(
@@ -28,16 +30,23 @@ export const useForecastContext = () => {
 const ForecastContextProvider = (props: {
   children: JSX.Element | JSX.Element[];
 }) => {
-  const [interval, setInterval] = useState<Interval>(10);
+  const { netWorth, monthlyCashflow, cash, debt, retirement } =
+    useCurrentStateContext();
+
+  const [interval, setInterval] = useState<Interval>(5);
   const [dates, setDates] = useState<string[] | null>(null);
-  const [lines, setLines] = useState([
-    [3, 2, 1, 3, 2],
-    [5, 1, 2, 1, 3],
-  ]);
+  const [scenarioLines, setScenarioLines] = useState<ScenarioLine[]>([]);
 
   useEffect(() => {
+    // Prevent chart from crashing if scenarioLines.values.length > dates.length
+    setScenarioLines([]);
+
     setDates(datesFromInterval(interval));
   }, [interval]);
+
+  useEffect(() => {
+    setScenarioLines(generateScenarioLines());
+  }, [netWorth, monthlyCashflow, dates]);
 
   const datesFromInterval = (interval: number): string[] => {
     const yearList: string[] = [];
@@ -47,7 +56,34 @@ const ForecastContextProvider = (props: {
       yearList.push(new Date(year, 0, 1).getFullYear().toString());
     }
     return yearList;
-    // return dates;
+  };
+
+  const generateScenarioLines = (): ScenarioLine[] => {
+    const scenarioLines: ScenarioLine[] = [];
+
+    if (dates) {
+      // Add net worth scenario line
+      if (cash && monthlyCashflow) {
+        scenarioLines.push({
+          baseMetric: BaseMetric.NetWorth,
+          values: dates.map((date, i) => {
+            return cash + i * 12 * monthlyCashflow;
+          }),
+        });
+      }
+
+      // Add cash scenario line
+      if (debt) {
+        scenarioLines.push({
+          baseMetric: BaseMetric.Debt,
+          values: dates.map((date, i) => {
+            return debt;
+          }),
+        });
+      }
+    }
+
+    return scenarioLines;
   };
 
   return (
@@ -56,7 +92,7 @@ const ForecastContextProvider = (props: {
         interval,
         setInterval,
         dates,
-        lines,
+        scenarioLines,
       }}
     >
       {props.children}

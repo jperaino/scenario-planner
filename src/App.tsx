@@ -8,6 +8,7 @@ import theme from "./theme";
 import MainContentContainer from "./components/layout/MainContentContainer";
 import MainAppBar from "./components/layout/MainAppBar";
 import ForecastSection from "./components/forecast/ForecastSection";
+import { CurrentStateContextProvider } from "./components/currentState/CurrentStateContext";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -33,7 +34,9 @@ function App() {
       <div className="App">
         <MainAppBar />
         <MainContentContainer>
-          <ForecastSection />
+          <CurrentStateContextProvider>
+            <ForecastSection />
+          </CurrentStateContextProvider>
         </MainContentContainer>
       </div>
     </ThemeProvider>
