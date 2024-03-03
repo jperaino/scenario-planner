@@ -1,13 +1,13 @@
-import React from "react";
 import "./App.css";
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { Container, ThemeProvider, Typography } from "@mui/material";
+import { ThemeProvider } from "@mui/material";
 import theme from "./theme";
-import MainContentContainer from "./layout/MainContentContainer";
-import MainAppBar from "./layout/MainAppBar";
+import MainContentContainer from "./components/layout/MainContentContainer";
+import MainAppBar from "./components/layout/MainAppBar";
+import ForecastSection from "./components/forecast/ForecastSection";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -33,7 +33,7 @@ function App() {
       <div className="App">
         <MainAppBar />
         <MainContentContainer>
-          <Typography>Some Text</Typography>
+          <ForecastSection />
         </MainContentContainer>
       </div>
     </ThemeProvider>

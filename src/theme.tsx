@@ -32,6 +32,13 @@ const theme = createTheme({
   typography: {
     fontFamily: "inter",
   },
+  components: {
+    MuiCard: {
+      defaultProps: {
+        variant: "outlined",
+      },
+    },
+  },
 });
 
 export default theme;

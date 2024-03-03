@@ -1,12 +1,11 @@
-import { Box, Container, Typography } from "@mui/material";
-import React from "react";
+import { Container } from "@mui/material";
 
 export interface MainContentContainerProps {
   children: JSX.Element | JSX.Element[];
 }
 
 const MainContentContainer = ({ children }: MainContentContainerProps) => (
-  <Container maxWidth="md" sx={{ backgroundColor: "lightgray" }}>
+  <Container maxWidth="lg" sx={{ padding: 1 }}>
     {children}
   </Container>
 );
