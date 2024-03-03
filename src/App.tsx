@@ -4,7 +4,8 @@ import "./App.css";
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { Typography } from "@mui/material";
+import { ThemeProvider, Typography } from "@mui/material";
+import theme from "./theme";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -26,12 +27,14 @@ const analytics = getAnalytics(app);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header"></header>
-      <div>
-        <Typography variant="h1">Hello, world!</Typography>
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        <header className="App-header"></header>
+        <div>
+          <Typography variant="h1">Hello, world!</Typography>
+        </div>
       </div>
-    </div>
+    </ThemeProvider>
   );
 }
 
