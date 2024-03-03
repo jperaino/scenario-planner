@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 interface IForecastContext {
-  // Define outputs here
+  dates: string[] | null;
+  lines: number[][] | null;
 }
 
 const ForecastContext = React.createContext<IForecastContext | undefined>(
@@ -24,13 +25,18 @@ export const useForecastContext = () => {
 const ForecastContextProvider = (props: {
   children: JSX.Element | JSX.Element[];
 }) => {
+  const [dates, setDates] = useState(["A", "B", "C", "D", "E", "F"]);
+  const [lines, setLines] = useState([
+    [3, 2, 1, 3, 2, 1],
+    [5, 1, 2, 1, 3, 2],
+  ]);
+
   return (
     <Provider
-      value={
-        {
-          // Add outputs here
-        }
-      }
+      value={{
+        dates,
+        lines,
+      }}
     >
       {props.children}
     </Provider>
