@@ -38,6 +38,31 @@ const theme = createTheme({
         variant: "outlined",
       },
     },
+    MuiButton: {
+      defaultProps: {
+        size: "small",
+        variant: "outlined",
+        style: {
+          textTransform: "none",
+        },
+      },
+    },
+    MuiToggleButtonGroup: {
+      defaultProps: {
+        size: "small",
+        style: {
+          textTransform: "none",
+        },
+      },
+    },
+    MuiToggleButton: {
+      defaultProps: {
+        size: "small",
+        style: {
+          textTransform: "none",
+        },
+      },
+    },
   },
 });
 

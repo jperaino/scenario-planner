@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Interval } from "./forecast.interfaces";
 interface IForecastContext {
+  interval: Interval;
+  setInterval: (newInterval: Interval) => void;
   dates: string[] | null;
   lines: number[][] | null;
 }
@@ -25,15 +28,33 @@ export const useForecastContext = () => {
 const ForecastContextProvider = (props: {
   children: JSX.Element | JSX.Element[];
 }) => {
-  const [dates, setDates] = useState(["A", "B", "C", "D", "E", "F"]);
+  const [interval, setInterval] = useState<Interval>(10);
+  const [dates, setDates] = useState<string[] | null>(null);
   const [lines, setLines] = useState([
-    [3, 2, 1, 3, 2, 1],
-    [5, 1, 2, 1, 3, 2],
+    [3, 2, 1, 3, 2],
+    [5, 1, 2, 1, 3],
   ]);
+
+  useEffect(() => {
+    setDates(datesFromInterval(interval));
+  }, [interval]);
+
+  const datesFromInterval = (interval: number): string[] => {
+    const yearList: string[] = [];
+    const currentYear = new Date().getFullYear();
+    for (let i = 0; i < interval; i++) {
+      const year = currentYear + i;
+      yearList.push(new Date(year, 0, 1).getFullYear().toString());
+    }
+    return yearList;
+    // return dates;
+  };
 
   return (
     <Provider
       value={{
+        interval,
+        setInterval,
         dates,
         lines,
       }}

@@ -33,7 +33,7 @@ const ForecastChart = ({}: ForecastChartProps) => {
             id: "x-axis-id",
           },
         ]}
-        yAxis={[{ scaleType: "linear", id: "y-axis-id" }]}
+        yAxis={[{ scaleType: "linear", id: "y-axis-id", min: 0 }]}
       >
         <LinePlot />
         <ChartsYAxis position="left" axisId="y-axis-id" />
